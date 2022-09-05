@@ -1,30 +1,31 @@
-
-/** Натисканням на кнопку «Stop» зміна кольору фону повинна зупинятися.
-
-УВАГА
-Враховуй, що на кнопку «Start» можна натиснути нескінченну кількість разів. 
-Зроби так, щоб доки зміна теми запущена, кнопка «Start» була неактивною (disabled). */
-
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
 const refs = {
-    body: document.querySelector('body'),
-    startBtn: document.querySelector('[data-start]'),
-    stopBtn: document.querySelector('[data-stop]'),
+  body: document.querySelector('body'),
+  startBtn: document.querySelector('[data-start]'),
+  stopBtn: document.querySelector('[data-stop]'),
 };
 let timerId = null;
+let isClicked = false;
 
-refs.startBtn.addEventListener('click', startColorSwitcger);
+refs.startBtn.addEventListener('click', startColorSwitcher);
 refs.stopBtn.addEventListener('click', stopColorSwitcher);
 
-function startColorSwitcger() {
-    timerId = setInterval(() => {
-        refs.body.style.backgroundColor = getRandomHexColor();
-    }, 1000);
+function startColorSwitcher() {
+  isClicked = true;
+
+  if (isClicked) {
+    refs.startBtn.setAttribute('disabled', 'true');
+  };
+
+  timerId = setInterval(() => {
+    refs.body.style.backgroundColor = getRandomHexColor();
+  }, 1000);
 }
 
 function stopColorSwitcher() {
-    clearInterval(timerId);
+  clearInterval(timerId);
+  refs.startBtn.removeAttribute('disabled');
 }
