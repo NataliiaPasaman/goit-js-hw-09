@@ -1,20 +1,22 @@
-/** HTML містить розмітку форми, в поля якої користувач буде вводити першу 
- * затримку в мілісекундах, крок збільшення затримки для кожного промісу 
- * після першого і кількість промісів, яку необхідно створити. 
- * 
- * Напиши скрипт, який на момент сабміту форми викликає функцію 
- * createPromise(position, delay) стільки разів, скільки ввели в поле amount.
- *  Під час кожного виклику передай їй номер промісу (position), 
- * що створюється, і затримку, враховуючи першу затримку (delay), 
- * введену користувачем, і крок (step).
- * */
+ const refs = {
+  form: document.querySelector('.form'),
+  inputDelay: document.querySelector('[name="delay"]'),
+  inputStep: document.querySelector('[name="step"]'),
+  inputAmount: document.querySelector('[name="amount"]'),
+  btn: document.querySelector('button'),
+}
+
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    // Fulfill
-  } else {
-    // Reject
-  }
+
+  return new Promise ((resolve, reject) => {
+    setTimeout(() => {
+      if(shouldResolve) {
+        resolve({ position, delay });
+      }
+      reject({ position, delay });
+    }, delay);
+  });
 }
 /** Доповни код функції createPromise таким чином, щоб вона повертала один проміс,
  *  який виконується або відхиляється через delay часу. Значенням промісу повинен 
@@ -29,31 +31,32 @@ function createPromise(position, delay) {
     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
   }); */
 
-  const refs = {
-    form: document.querySelector('.form'),
-    inputDelay: document.querySelector('[name="delay"]'),
-    inputStep: document.querySelector('[name="step"]'),
-    inputAmount: document.querySelector('[name="amount"]'),
-    btn: document.querySelector('button'),
-  }
+  refs.form.addEventListener('submit', onSubmitForm);
 
+  function onSubmitForm(amount, position) {
+    event.preventDefault();
 
-  refs.form.addEventListener('input', () => {
-    console.log(refs.inputDelay.value);
-    console.log(refs.inputStep.value);
-    console.log(refs.inputAmount.value);
-  })
+    let delay =  Number(refs.inputDelay.value);
+    let step = Number(refs.inputStep.value);
+    amount = Number(refs.inputAmount.value);
 
-  refs.form.addEventListener('submit', () => {});
+    for(let i = 1; i <= amount; i += 1) {
+      position = i;
 
-  function createPromiseTest(position, delay) {
-    position = refs.inputDelay.value;
-    const shouldResolve = Math.random() > 0.3;
-    if (shouldResolve) {
-      console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-    } else {
-      console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+      createPromise(position, delay)
+      .then(({ position, delay }) => {
+        setTimeout(() => {
+          console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        }, delay);
+      })
+      .catch(({ position, delay }) => {
+        setTimeout(() => {
+          console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+        }, delay);
+      });
+      delay += step;
     }
   }
 
-  createPromiseTest(2, 500);
+
+
