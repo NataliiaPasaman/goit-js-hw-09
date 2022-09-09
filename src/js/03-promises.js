@@ -1,3 +1,5 @@
+import { Notify } from 'notiflix';
+
  const refs = {
   form: document.querySelector('.form'),
   inputDelay: document.querySelector('[name="delay"]'),
@@ -18,18 +20,6 @@ function createPromise(position, delay) {
     }, delay);
   });
 }
-/** Доповни код функції createPromise таким чином, щоб вона повертала один проміс,
- *  який виконується або відхиляється через delay часу. Значенням промісу повинен 
- * бути об'єкт, в якому будуть властивості position і delay зі значеннями 
- * однойменних параметрів. Використовуй початковий код функції для вибору того, 
- * що потрібно зробити з промісом - виконати або відхилити.
- * createPromise(2, 1500)
-  .then(({ position, delay }) => {
-    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  })
-  .catch(({ position, delay }) => {
-    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-  }); */
 
   refs.form.addEventListener('submit', onSubmitForm);
 
@@ -46,12 +36,12 @@ function createPromise(position, delay) {
       createPromise(position, delay)
       .then(({ position, delay }) => {
         setTimeout(() => {
-          console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+          Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
         }, delay);
       })
       .catch(({ position, delay }) => {
         setTimeout(() => {
-          console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+          Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
         }, delay);
       });
       delay += step;
