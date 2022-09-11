@@ -11,7 +11,10 @@ const spanHours = document.querySelector('[data-hours]');
 const spanMinutes = document.querySelector('[data-minutes]');
 const spanSecondes = document.querySelector('[data-seconds]');
 
-btnStart.disabled = true;
+function makeDisabled(isActive) {
+  return btnStart.disabled = isActive;
+}
+
 
 const options = {
   enableTime: true,
@@ -22,9 +25,9 @@ const options = {
     console.log(selectedDates[0]);
 
     if((selectedDates[0]) > new Date()) {
-      btnStart.disabled = false;
+      makeDisabled(false);
     } else {
-      btnStart.disabled = true;
+      makeDisabled(true);
       Notify.failure('Please choose a date in the future');
     }
   },
@@ -43,6 +46,9 @@ function onStartTimer() {
  
     if (currentDate < newSelectedDate) {
       convertMs(ms);
+      makeDisabled(true);
+      
+      inputData.disabled = true;
     };
 
     if (currentDate > newSelectedDate) {
