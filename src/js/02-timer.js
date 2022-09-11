@@ -39,7 +39,7 @@ function onStartTimer() {
 
     const newSelectedDate = fp.selectedDates[0].getTime();
     const currentDate = (new Date()).getTime();
-    ms =  newSelectedDate - currentDate;
+    let ms =  newSelectedDate - currentDate;
  
     if (currentDate < newSelectedDate) {
       convertMs(ms);
