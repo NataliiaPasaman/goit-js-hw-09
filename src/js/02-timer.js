@@ -60,70 +60,29 @@ function convertMs(ms) {
 
   // Remaining days
   const days = Math.floor(ms / day);
-  spanDays.innerHTML = days;
+  spanDays.innerHTML = addLeadingZero(days);
   // Remaining hours
   const hours = Math.floor((ms % day) / hour);
-  spanHours.innerHTML = hours;
+  spanHours.innerHTML = addLeadingZero(hours);
   // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
-  spanMinutes.innerHTML = minutes;
+  spanMinutes.innerHTML = addLeadingZero(minutes);
   // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-  spanSecondes.innerHTML = seconds;
+  spanSecondes.innerHTML = addLeadingZero(seconds);
 
   return { days, hours, minutes, seconds };
 }
 
+/** Напиши функцію addLeadingZero(value), яка використовує метод padStart() і 
+ * перед рендерингом інтефрейсу форматує значення. */
 
 
+ function addLeadingZero(value) {
+  if (value < 10) {
+    return `0${value}`;
+  };
+  return value;
+ }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function onSelectedDatesInput() {
-  changedDates = fp.selectedDates[0];
-
-  console.log('currentDate', currentDate);
-  // console.log(Number(changedDates));
-  console.log('changedDates', changedDates);
-
-  inputInvalidDate(changedDates);
-  inputValidDate(changedDates);
-
-  return changedDates;
-}
-
-function inputInvalidDate(changedDates) {
-  setTimeout(() => {
-    if (currentDate > changedDates) {
-      window.alert('Please choose a date in the future');
-    }
-  }, 2000);
-}
-
-function inputValidDate(changedDates) {
-  if (currentDate > changedDates) {
-    btnStart.disabled = false;
-  }
-  // setTimeout(() => {
-  //   if (currentDate > changedDates) {
-  //     btnStart.setAttribute('disabled', 'false');
-  //   }
-  // }, 2000);
-}
