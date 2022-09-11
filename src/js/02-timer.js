@@ -1,3 +1,4 @@
+import { Notify } from 'notiflix';
 // Описаний в документації
 import flatpickr from 'flatpickr';
 // Додатковий імпорт стилів
@@ -21,11 +22,10 @@ const options = {
     console.log(selectedDates[0]);
 
     if((selectedDates[0]) > new Date()) {
-      console.log('!!!!!!!!!!!!!!!!!!!');
       btnStart.disabled = false;
     } else {
       btnStart.disabled = true;
-      window.alert('Please choose a date in the future');
+      Notify.failure('Please choose a date in the future');
     }
   },
 };
@@ -42,13 +42,12 @@ function onStartTimer() {
     ms =  newSelectedDate - currentDate;
  
     if (currentDate < newSelectedDate) {
-      console.log(ms);
-  
       convertMs(ms);
-    }
+    };
+
     if (currentDate > newSelectedDate) {
         clearInterval(timerId);
-      }
+      };
   }, 1000);
 }
 
@@ -73,10 +72,6 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-
-/** Напиши функцію addLeadingZero(value), яка використовує метод padStart() і 
- * перед рендерингом інтефрейсу форматує значення. */
-
 
  function addLeadingZero(value) {
   if (value < 10) {
