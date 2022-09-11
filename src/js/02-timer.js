@@ -74,10 +74,7 @@ function convertMs(ms) {
 }
 
  function addLeadingZero(value) {
-  if (value < 10) {
-    return `0${value}`;
-  };
-  return value;
+  return (value.toString()).padStart(2, '0');
  }
 
 
